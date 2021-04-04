@@ -16,3 +16,10 @@ if (!MONGODB_URI) {
   logger.error('No mongo connection string. Set MONGODB_URI environment variable.');
   process.exit(1);
 }
+
+export const JWT_SECRET = process.env['JWT_SECRET'];
+
+if (!JWT_SECRET) {
+  logger.error('No JWT secret found.');
+  process.exit(1);
+}

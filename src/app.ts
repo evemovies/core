@@ -1,8 +1,11 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import passport from 'passport';
+import './util/passport-setup';
 import { MONGODB_URI } from './util/secrets';
-import routes from './routes';
+import protectedRoutes from './routes/protected-routes';
+import unprotectedRoutes from './routes/unprotected-routes';
 
 // Create Express server
 const app = express();
@@ -23,6 +26,7 @@ app.set('port', process.env.PORT || 3000);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/api/v1', routes);
+app.use('/api/v1', unprotectedRoutes);
+app.use('/api/v1', passport.authenticate('jwt', { session: false }), protectedRoutes);
 
 export default app;

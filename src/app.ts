@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import passport from 'passport';
+import './models';
 import './util/passport-setup';
 import { MONGODB_URI } from './util/secrets';
 import protectedRoutes from './routes/protected-routes';

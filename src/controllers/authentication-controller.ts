@@ -17,7 +17,7 @@ export const login = (req: Request, res: Response, next: NextFunction): void => 
       }
 
       const body = { _id: user._id };
-      const token = jwt.sign({ user: body }, JWT_SECRET);
+      const token = jwt.sign({ user: body }, JWT_SECRET, { expiresIn: '100d' });
 
       return res.json({ token });
     });

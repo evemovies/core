@@ -26,16 +26,13 @@ passport.use(
 
 passport.use(
   new JWTStrategy(
-    {
-      secretOrKey: JWT_SECRET,
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    },
-    async (token, done) => {
+    { secretOrKey: JWT_SECRET, jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken() },
+    async (payload, done) => {
       try {
-        return done(null, token.user);
+        const user = await User.findById(payload.user.userId);
+        return done(null, user);
       } catch (error) {
-        console.log(error);
-        done(error);
+        console.log('JWT authentication error', error);
       }
     }
   )

@@ -13,7 +13,12 @@ const app = express();
 
 // Connect to MongoDB
 mongoose
-  .connect(MONGODB_URI, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
+  .connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
   .then(() => {
     /** ready to use. The `mongoose.connect()` promise resolves to undefined. */
   })

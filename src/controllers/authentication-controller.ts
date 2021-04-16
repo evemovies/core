@@ -8,19 +8,18 @@ export const login = (req: Request, res: Response, next: NextFunction): void => 
   passport.authenticate('login', async (err, user, info) => {
     if (err || !user) {
       console.log('Error', err, user, info);
-      return next(err);
+      return res.status(401).json({ success: false, error: 'Wrong or outdated OTP code' });
     }
 
     req.login(user, { session: false }, async (error) => {
       if (error) {
-        console.log('auth error', error);
-        return next(error);
+        return res.status(401).json({ success: false, error: 'Wrong or outdated OTP code' });
       }
 
       const body = { _id: user._id };
       const token = jwt.sign({ user: body }, JWT_SECRET, { expiresIn: '100d' });
 
-      return res.json({ token });
+      return res.json({ success: true, data: { token } });
     });
   })(req, res, next);
 };
@@ -35,14 +34,13 @@ export const requestOTPCode = async (req: Request, res: Response): Promise<void>
     code += String(Math.floor(Math.random() * 10));
   }
 
-  await User.findOneAndUpdate(
-    {
-      _id: String(req.body.user_id),
-    },
-    {
-      OTPCode: code,
-    }
-  );
+  const user = await User.findById(req.body.user_id);
 
-  res.json({});
+  if (!user) {
+    res.status(404).json({ success: false, error: 'User not found' });
+    return;
+  }
+
+  await user.updateOne({ OTPCode: code });
+  res.json({ success: true, data: {} });
 };

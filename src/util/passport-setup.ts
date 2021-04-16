@@ -29,7 +29,7 @@ passport.use(
     { secretOrKey: JWT_SECRET, jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken() },
     async (payload, done) => {
       try {
-        const user = await User.findById(payload.user.userId);
+        const user = await User.findById(payload.user._id);
         return done(null, user);
       } catch (error) {
         console.log('JWT authentication error', error);

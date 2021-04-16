@@ -5,6 +5,7 @@ import passport from 'passport';
 import './models';
 import './util/passport-setup';
 import { MONGODB_URI } from './util/secrets';
+import logger from './util/logger';
 import protectedRoutes from './routes/protected-routes';
 import unprotectedRoutes from './routes/unprotected-routes';
 
@@ -32,7 +33,29 @@ app.set('port', process.env.PORT || 3000);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use((req, res, next) => {
+  logger.info(req.originalUrl);
+  next();
+});
+
 app.use('/api/v1', unprotectedRoutes);
-app.use('/api/v1', passport.authenticate('jwt', { session: false }), protectedRoutes);
+app.use(
+  '/api/v1/',
+  (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user) => {
+      if (!user) {
+        return res.status(401).json({ success: false, error: 'Unauthorized' });
+      }
+
+      req.user = user;
+      return next();
+    })(req, res, next);
+  },
+  protectedRoutes
+);
+
+app.get('*', function (req, res) {
+  res.status(404).json({ success: false, error: 'Not found' });
+});
 
 export default app;

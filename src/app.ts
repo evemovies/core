@@ -5,12 +5,16 @@ import passport from 'passport';
 import './models';
 import './util/passport-setup';
 import { MONGODB_URI } from './util/secrets';
+import { initTelegram } from './util/telegram';
 import logger from './util/logger';
 import protectedRoutes from './routes/protected-routes';
 import unprotectedRoutes from './routes/unprotected-routes';
 
 // Create Express server
 const app = express();
+
+// TODO: add Winston logger
+initTelegram();
 
 // Connect to MongoDB
 mongoose

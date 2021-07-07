@@ -35,9 +35,13 @@ export const UserSchema = new mongoose.Schema(
 
 UserSchema.pre('find', function () {
   this.populate('observableMovies');
-}).pre('findOne', function () {
-  this.populate('observableMovies');
-});
+})
+  .pre('findOne', function () {
+    this.populate('observableMovies');
+  })
+  .pre('findOneAndUpdate', function () {
+    this.populate('observableMovies');
+  });
 
 const User = mongoose.model<IUser>('User', UserSchema);
 export default User;

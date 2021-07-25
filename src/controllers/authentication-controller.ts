@@ -47,3 +47,9 @@ export const requestOTPCode = async (req: Request, res: Response): Promise<void>
 
   res.json(responseFormatter(true, {}));
 };
+
+export const logout = async (req: Request, res: Response): Promise<void> => {
+  await writeMessage(req.user._id, 'You have successfully logged out of the mobile app!');
+
+  res.json(responseFormatter(true, {}));
+};

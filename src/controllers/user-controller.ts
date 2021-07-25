@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import User from '../models/User';
 import Movie from '../models/Movie';
 import { responseFormatter } from '../util/response-formatter';
+import { releaseChecker } from '../services/movie-releases/release-checker';
 
 export const getUser = async (req: Request, res: Response): Promise<void> => {
   const user = await User.findById(req.user._id, '-OTPCode');
@@ -11,6 +12,17 @@ export const getUser = async (req: Request, res: Response): Promise<void> => {
 export const addMovie = async (req: Request, res: Response): Promise<void> => {
   const movie = req.body;
   const user = req.user;
+
+  const movieRelease = await releaseChecker.en({
+    id: movie.id,
+    title: movie.title,
+    year: movie.year,
+  });
+
+  if (movieRelease) {
+    res.json(responseFormatter(false, 'This move has ben released already'));
+    return;
+  }
 
   await Movie.findOneAndUpdate(
     { _id: movie.id },

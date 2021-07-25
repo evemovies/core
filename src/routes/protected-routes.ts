@@ -3,8 +3,11 @@ import { asyncWrapper } from '../util/async-wrapper';
 import { ping } from '../controllers/general-controller';
 import { getMovie, searchMovies } from '../controllers/movies-controller';
 import { getUser, addMovie, removeMovie } from '../controllers/user-controller';
+import { logout } from '../controllers/authentication-controller';
 
 const routes = express.Router();
+
+routes.post('/logout', asyncWrapper(logout));
 
 routes.get('/general/ping', asyncWrapper(ping));
 

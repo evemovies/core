@@ -16,6 +16,6 @@ routes.get('/movies/search', async_wrapper_1.asyncWrapper(movies_controller_1.se
 routes.get('/movies/:movieId', async_wrapper_1.asyncWrapper(movies_controller_1.getMovie));
 routes.get('/user', async_wrapper_1.asyncWrapper(user_controller_1.getUser));
 routes.put('/user/add-movie', async_wrapper_1.asyncWrapper(user_controller_1.addMovie));
-routes.post('/user/remove-movie', async_wrapper_1.asyncWrapper(user_controller_1.removeMovie));
+routes.put('/user/remove-movie', async_wrapper_1.asyncWrapper(user_controller_1.removeMovie));
 exports.default = routes;
 //# sourceMappingURL=protected-routes.js.map

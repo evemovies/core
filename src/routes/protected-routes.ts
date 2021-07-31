@@ -16,6 +16,6 @@ routes.get('/movies/:movieId', asyncWrapper(getMovie));
 
 routes.get('/user', asyncWrapper(getUser));
 routes.put('/user/add-movie', asyncWrapper(addMovie));
-routes.post('/user/remove-movie', asyncWrapper(removeMovie));
+routes.put('/user/remove-movie', asyncWrapper(removeMovie));
 
 export default routes;

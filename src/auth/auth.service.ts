@@ -6,19 +6,16 @@ import { UserService } from '../user/user.service';
 export class AuthService {
   constructor(private userService: UserService, private jwtService: JwtService) {}
 
-  async validateUser(username: string, password: string) {
-    const user = await this.userService.findOne(username);
+  async validateUser(id: string, OTPCode: string) {
+    const user = await this.userService.findOne(id);
 
-    if (user && user.password === password) {
-      const { password, ...result } = user;
-      return result;
-    }
+    if (user && user.OTPCode === OTPCode) return user;
 
     return null;
   }
 
   async login(user: any) {
-    const payload = { username: user.username, sub: user.userId };
+    const payload = { sub: user._id };
 
     return {
       access_token: this.jwtService.sign(payload),

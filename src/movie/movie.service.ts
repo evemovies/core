@@ -8,8 +8,8 @@ import { IMovie } from './movie.interface';
 export class MovieService {
   constructor(@InjectModel(Movie.name) private movieModel: Model<MovieDocument>) {}
 
-  async getAllMovies(): Promise<Movie[]> {
-    return this.movieModel.find();
+  async getAllMovies(limit = 10): Promise<Movie[]> {
+    return this.movieModel.find().limit(limit);
   }
 
   async getMovieById(id: string): Promise<IMovie> {

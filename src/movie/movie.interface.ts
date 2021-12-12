@@ -3,6 +3,6 @@ export interface IMovie {
   title: string;
   year: number;
   posterUrl: string;
-  language: string;
+  language: 'en' | 'ru';
   released: boolean;
 }

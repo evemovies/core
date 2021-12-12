@@ -20,7 +20,7 @@ export class Movie {
   posterUrl: string;
 
   @Prop()
-  language: string;
+  language: 'en' | 'ru';
 
   @Prop()
   released: boolean;

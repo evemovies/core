@@ -1,6 +1,4 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
-import { Movie } from 'src/movie/movie.schema';
 
 export type UserDocument = User & Document;
 
@@ -20,8 +18,8 @@ export class User {
   @Prop()
   name: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' })
-  observableMovies: Movie[];
+  @Prop()
+  observableMovies: string[];
 
   @Prop()
   lastActivity: number;

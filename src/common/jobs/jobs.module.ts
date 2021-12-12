@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ReleaseCheckerJob } from './release-checker/release-checker.job';
+import { Movie, MovieSchema } from 'src/movie/movie.schema';
 import { User, UserSchema } from 'src/user/user.schema';
-import { MovieController } from './movie.controller';
-import { MovieService } from './movie.service';
-import { Movie, MovieSchema } from './movie.schema';
 
 @Module({
   imports: [
@@ -12,7 +11,6 @@ import { Movie, MovieSchema } from './movie.schema';
       { name: User.name, schema: UserSchema },
     ]),
   ],
-  controllers: [MovieController],
-  providers: [MovieService],
+  providers: [ReleaseCheckerJob],
 })
-export class MovieModule {}
+export class JobsModule {}

@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Movie } from 'src/movie/movie.schema';
 
 export type UserDocument = User & Document;
 
@@ -18,8 +19,8 @@ export class User {
   @Prop()
   name: string;
 
-  @Prop()
-  observableMovies: string[];
+  @Prop({ ref: 'Movie' })
+  observableMovies: Movie[] | string[];
 
   @Prop()
   lastActivity: number;

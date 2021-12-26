@@ -1,17 +1,18 @@
-import { IsString, IsNumberString } from 'class-validator';
+import { IsString } from 'class-validator';
 
-export class GetMovieByIdDto {
-  @IsString()
-  id: string;
-}
-
-export class SearchMoviesDto {
+export class MovieDto {
   @IsString()
   language: 'en' | 'ru';
 
   @IsString()
   title: string;
 
-  @IsNumberString()
   year: number;
 }
+
+export class GetMovieByIdDto {
+  @IsString()
+  _id: string;
+}
+
+export class SearchMoviesDto extends MovieDto {}

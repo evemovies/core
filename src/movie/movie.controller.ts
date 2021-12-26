@@ -1,27 +1,24 @@
-import { Controller, Get, Param, Query, Request } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { IMovie } from './movie.interface';
 import { MovieService } from './movie.service';
-import { ISearchResult } from './search/movie-search';
 import { GetMovieByIdDto, SearchMoviesDto } from './movie.dto';
 
 @Controller('movies')
 export class MovieController {
   constructor(private movieService: MovieService) {}
 
-  @Get('search')
-  async searchMovies(@Query() query: SearchMoviesDto): Promise<ISearchResult[]> {
+  @Get('search-movie')
+  async searchMovies(@Query() query: SearchMoviesDto) {
     const { language, title, year } = query;
+    const foundMovies = await this.movieService.searchMovies({ language, title, year });
 
-    return this.movieService.searchMovies({ language, title, year });
+    return {
+      foundMovies,
+    };
   }
 
-  @Get('get/:id')
+  @Get(':_id')
   getMovieById(@Param() params: GetMovieByIdDto): Promise<IMovie> {
-    return this.movieService.getMovieById(params.id);
-  }
-
-  @Get('my-movies')
-  getUserMovies(@Request() req): Promise<IMovie[]> {
-    return this.movieService.getUserMovies(req.user.id);
+    return this.movieService.getMovieById(params._id);
   }
 }

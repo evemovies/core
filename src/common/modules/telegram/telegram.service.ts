@@ -10,6 +10,6 @@ export class TelegramService {
   }
 
   sendMessage(userId: string, message: string) {
-    this.telegram.sendMessage(userId, message);
+    return this.telegram.sendMessage(userId, message);
   }
 }

@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
 import { MovieModule } from './movie/movie.module';
+import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { JobsModule } from './common/jobs/jobs.module';
@@ -14,11 +15,12 @@ import { TelegramModule } from './common/modules/telegram/telegram.module';
       useFindAndModify: false,
       useNewUrlParser: true,
     }),
+    UserModule,
+    MovieModule,
+    AuthModule,
     ScheduleModule.forRoot(),
     TelegramModule,
     JobsModule,
-    MovieModule,
-    AuthModule,
   ],
   providers: [
     {

@@ -1,6 +1,6 @@
 import got from 'got';
 import cheerio from 'cheerio';
-import { ICheckerConfig } from '../release-checker.interface';
+import { ICheckerConfig } from './interface';
 import { isNumberInRage, checkStringSimilarity } from './helpers';
 
 /**

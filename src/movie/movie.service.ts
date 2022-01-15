@@ -40,8 +40,9 @@ export class MovieService {
   }
 
   async checkMovieRelease({ _id, language, title, year }: IReleaseCheckParameters) {
+    // TODO: currently default to English language
     const checkResult = await Promise.all(
-      this.releaseCheckers[language].map((checker) =>
+      this.releaseCheckers[language || 'en'].map((checker) =>
         checker({
           _id,
           title,

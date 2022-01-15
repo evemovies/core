@@ -19,6 +19,7 @@ export class AuthService {
     const payload = { sub: user._id };
 
     return {
+      user_id: user._id,
       access_token: this.jwtService.sign(payload),
     };
   }
@@ -33,7 +34,12 @@ export class AuthService {
     const user = await this.userService.getUserById(id);
 
     if (!user) {
-      throw new HttpException('inside here', HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        {
+          error: 'User not found',
+        },
+        HttpStatus.NOT_FOUND,
+      );
     }
 
     await this.userService.updateUser({ _id: id }, { OTPCode: code });

@@ -17,7 +17,7 @@ export async function imdb(params: ISearchParameters): Promise<ISearchResult[]> 
     result = await imdbAPI.search({ name: params.title, year: params.year }, IMDB_SEARCH_PARAMS);
 
     return result.results.map((item) => ({
-      id: item.imdbid,
+      _id: item.imdbid,
       title: item.title,
       year: item.year,
       posterUrl: item.poster,

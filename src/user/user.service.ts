@@ -38,6 +38,20 @@ export class UserService {
     );
   }
 
+  async removeMovie(userId: string, movieId: string) {
+    return this.userModel.findOneAndUpdate(
+      {
+        _id: userId,
+      },
+      {
+        $pull: { observableMovies: movieId },
+      },
+      {
+        new: true,
+      },
+    );
+  }
+
   async handleReleasedMovie(movie: IMovie) {
     const usersWithThisMovie = await this.userModel.find({ observableMovies: movie._id });
 

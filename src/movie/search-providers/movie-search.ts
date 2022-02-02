@@ -42,8 +42,7 @@ const movieSearchWrapper = (provider: Provider) => async (params: ISearchParamet
       _id: 'tt0084787',
       title: 'The Thing',
       year: 1982,
-      posterUrl:
-        'https://m.media-amazon.com/images/M/MV5BNGViZWZmM2EtNGYzZi00ZDAyLTk3ODMtNzIyZTBjN2Y1NmM1XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg',
+      posterUrl: undefined,
     },
     {
       _id: 'tt0905372',

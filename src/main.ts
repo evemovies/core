@@ -11,6 +11,6 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new ResponseFormatterInterceptor());
   app.setGlobalPrefix('/api/v1');
-  await app.listen(3000);
+  await app.listen(3001);
 }
 bootstrap();

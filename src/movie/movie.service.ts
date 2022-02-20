@@ -31,6 +31,12 @@ export class MovieService {
     return this.movieModel.findOne({ _id: id });
   }
 
+  async getUserMovies(userId: string) {
+    const user = await this.userModel.findById(userId);
+
+    return user.observableMovies;
+  }
+
   async getMoviesFromDb(filter: FilterQuery<MovieDocument>): Promise<IMovie[]> {
     return this.movieModel.find(filter);
   }

@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, Request } from '@nestjs/common';
 import { IMovie } from './movie.interface';
 import { MovieService } from './movie.service';
 import { GetMovieByIdDto, SearchMoviesDto } from './movie.dto';
@@ -15,6 +15,11 @@ export class MovieController {
     return {
       foundMovies,
     };
+  }
+
+  @Get('user-movies')
+  async getUserMovies(@Request() req) {
+    return this.movieService.getUserMovies(req.user.id);
   }
 
   @Get(':_id')

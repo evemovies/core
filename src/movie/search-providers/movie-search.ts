@@ -39,65 +39,65 @@ const movieSearchWrapper = (provider: Provider) => async (params: ISearchParamet
 
   return [
     {
-      _id: 'tt0084787',
+      id: 'tt0084787',
       title: 'The Thing',
       year: 1982,
       posterUrl: undefined,
     },
     {
-      _id: 'tt0905372',
+      id: 'tt0905372',
       title: 'The Thing',
       year: 2011,
       posterUrl: 'https://m.media-amazon.com/images/M/MV5BMTMxMjI0MzUyNl5BMl5BanBnXkFtZTcwNjc1NzE5NQ@@._V1_SX300.jpg',
     },
     {
-      _id: 'tt0097216',
+      id: 'tt0097216',
       title: 'Do the Right Thing',
       year: 1989,
       posterUrl: 'https://m.media-amazon.com/images/M/MV5BODA2MjU1NTI1MV5BMl5BanBnXkFtZTgwOTU4ODIwMjE@._V1_SX300.jpg',
     },
     {
-      _id: 'tt0117887',
+      id: 'tt0117887',
       title: 'That Thing You Do!',
       year: 1996,
       posterUrl:
         'https://m.media-amazon.com/images/M/MV5BOWVmN2ZhZjgtZGEzMy00NDkxLWI5YWQtYTE2ZTk0YzIyMzc0XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg',
     },
     {
-      _id: 'tt0253867',
+      id: 'tt0253867',
       title: 'The Sweetest Thing',
       year: 2002,
       posterUrl:
         'https://m.media-amazon.com/images/M/MV5BNDIyZTkwOGEtYTFlNC00MTU4LWIyNGItYjBlYmFhNDRmYzcwXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg',
     },
     {
-      _id: 'tt0482527',
+      id: 'tt0482527',
       title: "It's a Boy Girl Thing",
       year: 2006,
       posterUrl: 'https://m.media-amazon.com/images/M/MV5BMjM0NzYwMDI4MF5BMl5BanBnXkFtZTgwOTU1OTkwMzE@._V1_SX300.jpg',
     },
     {
-      _id: 'tt0044121',
+      id: 'tt0044121',
       title: 'The Thing from Another World',
       year: 1951,
       posterUrl: 'https://m.media-amazon.com/images/M/MV5BODA5MjE1MTY2Ml5BMl5BanBnXkFtZTgwNzU5MjQxMDE@._V1_SX300.jpg',
     },
     {
-      _id: 'tt0115640',
+      id: 'tt0115640',
       title: 'Beautiful Thing',
       year: 1996,
       posterUrl:
         'https://m.media-amazon.com/images/M/MV5BYTM4OTllMzYtZmQ0YS00MDU3LTliZDktNjMzYmQ4ZjRjMmFjXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg',
     },
     {
-      _id: 'tt8362852',
+      id: 'tt8362852',
       title: 'Swamp Thing',
       year: 2019,
       posterUrl:
         'https://m.media-amazon.com/images/M/MV5BMGFhZDE1NWMtZDY0Yi00MWNmLTkxZGEtNzYzYzU4ZTE5NDgwXkEyXkFqcGdeQXVyNTE1NjY5Mg@@._V1_SX300.jpg',
     },
     {
-      _id: 'tt0090103',
+      id: 'tt0090103',
       title: 'The Sure Thing',
       year: 1985,
       posterUrl:

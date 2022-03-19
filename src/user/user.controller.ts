@@ -16,6 +16,14 @@ export class UserController {
     return this.userService.getUserById(params._id);
   }
 
+  @Get(':_id/movies')
+  @UseGuards(UserGuard)
+  getUserMovies(@Request() req) {
+    const userId = req.user.id;
+
+    return this.userService.getUserMovies(userId);
+  }
+
   @Post(':_id/add-movie')
   @UseGuards(UserGuard)
   async addMovie(@Request() req, @Body() rawMovie: MovieDto) {
@@ -25,16 +33,16 @@ export class UserController {
       _id: rawMovie.id,
     };
 
-    const movieReleased = await this.movieService.checkMovieRelease(movie);
-
-    if (movieReleased) {
-      throw new HttpException(
-        {
-          error: 'This movie has been released already',
-        },
-        HttpStatus.BAD_REQUEST,
-      );
-    }
+    // const movieReleased = await this.movieService.checkMovieRelease(movie);
+    //
+    // if (movieReleased) {
+    //   throw new HttpException(
+    //     {
+    //       error: 'This movie has been released already',
+    //     },
+    //     HttpStatus.BAD_REQUEST,
+    //   );
+    // }
 
     await this.userService.addMovie(userId, movie._id);
     await this.movieService.saveMovie(movie);

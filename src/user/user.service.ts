@@ -38,6 +38,12 @@ export class UserService {
     );
   }
 
+  async getUserMovies(userId: string) {
+    const user = await this.userModel.findById(userId);
+
+    return user.observableMovies;
+  }
+
   async removeMovie(userId: string, movieId: string) {
     return this.userModel.findOneAndUpdate(
       {

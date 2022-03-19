@@ -1,7 +1,6 @@
 import { FilterQuery, Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from 'src/user/user.schema';
 import { Movie, MovieDocument } from './movie.schema';
 import { IMovie } from './movie.interface';
 import {
@@ -19,22 +18,13 @@ export class MovieService {
     ru: [] as Checker[],
   };
 
-  constructor(
-    @InjectModel(Movie.name) private movieModel: Model<MovieDocument>,
-    @InjectModel(User.name) private userModel: Model<UserDocument>,
-  ) {
+  constructor(@InjectModel(Movie.name) private movieModel: Model<MovieDocument>) {
     this.releaseCheckers.en.push(ytsReleaseChecker);
     this.releaseCheckers.ru.push(scarfilmReleaseChecker);
   }
 
   async getMovieById(id: string): Promise<IMovie> {
     return this.movieModel.findOne({ _id: id });
-  }
-
-  async getUserMovies(userId: string) {
-    const user = await this.userModel.findById(userId);
-
-    return user.observableMovies;
   }
 
   async getMoviesFromDb(filter: FilterQuery<MovieDocument>): Promise<IMovie[]> {

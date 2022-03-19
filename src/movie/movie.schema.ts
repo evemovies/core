@@ -27,3 +27,7 @@ export class Movie {
 }
 
 export const MovieSchema = SchemaFactory.createForClass(Movie);
+
+MovieSchema.set('toJSON', {
+  virtuals: true,
+});

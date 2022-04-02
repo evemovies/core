@@ -1,0 +1,19 @@
+services:
+  eve-movies-core:
+    container_name: eve-movies-core
+    image: eve-movies-core
+    restart: always
+    build: .
+    ports:
+      - "3001:3001"
+    links:
+      - mongo
+    depends_on:
+      - mongo
+  mongo:
+    container_name: mongo
+    image: mongo
+    volumes:
+      - /path/to/local/data/db:/data/db
+    ports:
+      - "27018:27017"

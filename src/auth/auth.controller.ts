@@ -28,4 +28,9 @@ export class AuthController {
       access: true,
     };
   }
+
+  @Post('logout')
+  logout() {
+    return {};
+  }
 }

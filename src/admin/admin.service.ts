@@ -14,9 +14,9 @@ export class AdminService {
     const day = date.getDate();
     const epochTime = new Date(year, month, day).getTime();
 
-    const allUsers = await this.userModel.count({});
-    const createdToday = await this.userModel.find({ created: { $gte: epochTime } }).count();
-    const activeToday = await this.userModel.find({ lastActivity: { $gte: epochTime } }).count();
+    const allUsers = await this.userModel.countDocuments({});
+    const createdToday = await this.userModel.find({ created: { $gte: epochTime } }).countDocuments();
+    const activeToday = await this.userModel.find({ lastActivity: { $gte: epochTime } }).countDocuments();
 
     return { allUsers, createdToday, activeToday };
   }

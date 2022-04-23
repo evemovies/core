@@ -1,15 +1,21 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, Request } from '@nestjs/common';
+import { Logger, getUserForLog } from 'src/common/utils/logger';
 import { IMovie } from './movie.interface';
 import { MovieService } from './movie.service';
 import { GetMovieByIdDto, SearchMoviesDto } from './movie.dto';
 
 @Controller('movies')
 export class MovieController {
+  private readonly logger = new Logger(MovieController.name);
+
   constructor(private movieService: MovieService) {}
 
   @Get('search-movie')
-  async searchMovies(@Query() query: SearchMoviesDto) {
+  async searchMovies(@Request() req, @Query() query: SearchMoviesDto) {
     const { language, title, year } = query;
+
+    this.logger.log(`${getUserForLog(req)} is searching for a movie with params: ${title}, ${year}, ${language}`);
+
     const foundMovies = await this.movieService.searchMovies({ language, title, year });
 
     return {
@@ -18,7 +24,9 @@ export class MovieController {
   }
 
   @Get(':_id')
-  getMovieById(@Param() params: GetMovieByIdDto): Promise<IMovie> {
+  getMovieById(@Request() req, @Param() params: GetMovieByIdDto): Promise<IMovie> {
+    this.logger.log(`${getUserForLog(req)} is getting movie with id ${params._id}`);
+
     return this.movieService.getMovieById(params._id);
   }
 }

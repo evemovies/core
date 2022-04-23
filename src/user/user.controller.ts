@@ -1,5 +1,4 @@
 import { Controller, Get, Post, Request, Param, UseGuards, Body, HttpStatus, HttpException } from '@nestjs/common';
-import { IMovie } from 'src/movie/movie.interface';
 import { MovieService } from 'src/movie/movie.service';
 import { Logger, getUserForLog } from 'src/common/utils/logger';
 import { MovieDto } from './user.dto';
@@ -13,16 +12,17 @@ export class UserController {
 
   constructor(private userService: UserService, private movieService: MovieService) {}
 
-  @Get(':_id')
+  @Get(':id')
   @UseGuards(UserGuard)
   getUser(@Request() req, @Param() params): Promise<IUser> {
     // TODO: add check that requested user's id is equal to req.user.id
-    // TODO: remove unused parameters like __v, OTPCode, etc.
-    this.logger.log(`${getUserForLog(req)} is getting user by id ${params._id}`);
-    return this.userService.getUserById(params._id);
+    const userId = params.id;
+    this.logger.log(`${getUserForLog(req)} is getting user with id ${userId}`);
+
+    return this.userService.getUserById(userId);
   }
 
-  @Get(':_id/movies')
+  @Get(':id/movies')
   @UseGuards(UserGuard)
   getUserMovies(@Request() req) {
     const userId = req.user.id;
@@ -32,14 +32,11 @@ export class UserController {
     return this.userService.getUserMovies(userId);
   }
 
-  @Post(':_id/add-movie')
+  @Post(':id/add-movie')
   @UseGuards(UserGuard)
-  async addMovie(@Request() req, @Body() rawMovie: MovieDto) {
+  async addMovie(@Request() req, @Body() movie: MovieDto) {
+    // TODO: add check that movie is not yet added (for Telegram bot)
     const userId = req.user.id;
-    const movie: IMovie = {
-      ...rawMovie,
-      _id: rawMovie.id,
-    };
 
     this.logger.log(`${getUserForLog(req)} is trying to add movie ${JSON.stringify(movie)}`);
 
@@ -54,13 +51,13 @@ export class UserController {
       );
     }
 
-    await this.userService.addMovie(userId, movie._id);
+    await this.userService.addMovie(userId, movie.id);
     await this.movieService.saveMovie(movie);
 
     return this.userService.getUserById(userId);
   }
 
-  @Post(':_id/remove-movie')
+  @Post(':id/remove-movie')
   @UseGuards(UserGuard)
   async removeMovie(@Request() req) {
     const userId = req.user.id;

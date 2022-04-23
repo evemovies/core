@@ -12,7 +12,7 @@ export class MovieDto {
 
 export class GetMovieByIdDto {
   @IsString()
-  _id: string;
+  id: string;
 }
 
 export class SearchMoviesDto extends MovieDto {}

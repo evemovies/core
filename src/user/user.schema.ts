@@ -10,6 +10,8 @@ export class User {
   @Prop()
   _id: string;
 
+  id: string;
+
   @Prop()
   created: number;
 
@@ -37,6 +39,30 @@ export class User {
 
 export const UserSchema = SchemaFactory.createForClass(User);
 
+UserSchema.virtual('id').get(function () {
+  return this._id;
+});
+
 UserSchema.set('toJSON', {
   virtuals: true,
 });
+
+UserSchema.set('toObject', {
+  virtuals: true,
+});
+
+UserSchema.methods.toJSON = function () {
+  const user: any = this.toObject();
+
+  delete user._id;
+  delete user.__v;
+
+  if (Array.isArray(user.observableMovies)) {
+    user.observableMovies.forEach((movie) => {
+      delete movie._id;
+      delete movie.__v;
+    });
+  }
+
+  return user;
+};

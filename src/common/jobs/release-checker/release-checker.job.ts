@@ -30,7 +30,7 @@ export class ReleaseCheckerJob {
       const movieReleased = await this.movieService.checkMovieRelease(movie);
 
       if (movieReleased) {
-        await this.movieService.markMovieAsReleased(movie._id);
+        await this.movieService.markMovieAsReleased(movie.id);
         await this.userService.handleReleasedMovie(movie);
       }
     }

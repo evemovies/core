@@ -7,7 +7,7 @@ export class UserGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
 
     const tokenUserId = request.user.id;
-    const paramUserId = request.params._id;
+    const paramUserId = request.params.id;
 
     return tokenUserId === paramUserId;
   }

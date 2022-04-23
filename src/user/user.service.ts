@@ -59,15 +59,15 @@ export class UserService {
   }
 
   async handleReleasedMovie(movie: IMovie) {
-    const usersWithThisMovie = await this.userModel.find({ observableMovies: movie._id });
+    const usersWithThisMovie = await this.userModel.find({ observableMovies: movie.id });
 
     for (const user of usersWithThisMovie) {
       await this.userModel.findOneAndUpdate(
         {
-          _id: user._id,
+          _id: user.id,
         },
         {
-          $pull: { observableMovies: movie._id },
+          $pull: { observableMovies: movie.id },
           $inc: { totalMovies: 1 },
         },
         {
@@ -75,7 +75,7 @@ export class UserService {
         },
       );
 
-      await this.telegramService.sendMessage(user._id, `Movie ${movie.title} has been released`);
+      await this.telegramService.sendMessage(user.id, `Movie ${movie.title} has been released`);
     }
   }
 }

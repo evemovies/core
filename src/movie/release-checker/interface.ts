@@ -1,5 +1,5 @@
 export interface ICheckerConfig {
-  _id: string;
+  id: string;
   title: string;
   year: number;
 }

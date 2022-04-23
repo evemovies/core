@@ -23,10 +23,10 @@ export class MovieController {
     };
   }
 
-  @Get(':_id')
+  @Get(':id')
   getMovieById(@Request() req, @Param() params: GetMovieByIdDto): Promise<IMovie> {
-    this.logger.log(`${getUserForLog(req)} is getting movie with id ${params._id}`);
+    this.logger.log(`${getUserForLog(req)} is getting movie with id ${params.id}`);
 
-    return this.movieService.getMovieById(params._id);
+    return this.movieService.getMovieById(params.id);
   }
 }

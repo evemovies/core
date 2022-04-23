@@ -1,6 +1,6 @@
 import { Controller, Request, Get, Post, UseGuards } from '@nestjs/common';
 import { Public } from 'src/common/decorators/public.decorator';
-import { Logger } from 'src/common/utils/logger';
+import { Logger, getUserForLog } from 'src/common/utils/logger';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './local-auth.guard';
 
@@ -13,7 +13,7 @@ export class AuthController {
   @Public()
   @Post('request-otp-code')
   async requestOtpCode(@Request() req) {
-    const userId = req.body._id;
+    const userId = req.body.id;
 
     this.logger.log(`OTP Code requested for ${userId}`);
 
@@ -26,7 +26,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req) {
-    this.logger.log(`Auth attempt for ${req.user._id}`);
+    this.logger.log(`Auth attempt for ${req.user.id}`);
 
     return this.authService.login(req.user);
   }
@@ -39,7 +39,11 @@ export class AuthController {
   }
 
   @Post('logout')
-  logout() {
-    return {};
+  logout(@Request() req) {
+    this.logger.log(`${getUserForLog(req)} is logging out`);
+
+    return {
+      success: true,
+    };
   }
 }

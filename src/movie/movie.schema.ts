@@ -10,6 +10,8 @@ export class Movie {
   @Prop()
   _id: string;
 
+  id: string;
+
   @Prop()
   title: string;
 
@@ -31,3 +33,16 @@ export const MovieSchema = SchemaFactory.createForClass(Movie);
 MovieSchema.set('toJSON', {
   virtuals: true,
 });
+
+MovieSchema.set('toObject', {
+  virtuals: true,
+});
+
+MovieSchema.methods.toJSON = function () {
+  const movie = this.toObject();
+
+  delete movie._id;
+  delete movie.__v;
+
+  return movie;
+};

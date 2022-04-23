@@ -27,7 +27,7 @@ export async function tmdb(params: ISearchParameters): Promise<ISearchResult[]> 
     response = await got(url);
 
     return (response.body as any).results.map((movie: any) => ({
-      _id: movie.id,
+      id: movie.id,
       title: movie.title,
       year: Number(movie.release_date.slice(0, 4)),
     }));

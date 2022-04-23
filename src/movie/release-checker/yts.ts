@@ -7,7 +7,7 @@ import { isNumberInRage, checkStringSimilarity } from './helpers';
  * @param config - config to check the movie
  */
 export async function ytsReleaseChecker(config: ICheckerConfig): Promise<boolean> {
-  const url = encodeURI(`https://yts.mx/api/v2/list_movies.json?query_term=${config._id}`);
+  const url = encodeURI(`https://yts.mx/api/v2/list_movies.json?query_term=${config.id}`);
 
   let response;
 
@@ -27,7 +27,7 @@ export async function ytsReleaseChecker(config: ICheckerConfig): Promise<boolean
 
     return (
       isGoodQuality &&
-      movie.imdb_code === config._id &&
+      movie.imdb_code === config.id &&
       checkStringSimilarity(movie.title_english, config.title) &&
       isNumberInRage(movie.year, config.year)
     );

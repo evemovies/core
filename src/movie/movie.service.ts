@@ -35,12 +35,12 @@ export class MovieService {
     return movieSearch[language]({ title, year, language });
   }
 
-  async checkMovieRelease({ _id, language, title, year }: IReleaseCheckParameters) {
+  async checkMovieRelease({ id, language, title, year }: IReleaseCheckParameters) {
     // TODO: currently default to English language
     const checkResult = await Promise.all(
       this.releaseCheckers[language || 'en'].map((checker) =>
         checker({
-          _id,
+          id,
           title,
           year,
         }),
@@ -67,10 +67,10 @@ export class MovieService {
   async saveMovie(movie: IMovie) {
     return this.movieModel.findOneAndUpdate(
       {
-        _id: movie._id,
+        _id: movie.id,
       },
       {
-        _id: movie._id,
+        _id: movie.id,
         title: movie.title.replace(/ё/, 'e'),
         year: movie.year,
         posterUrl: movie.posterUrl,

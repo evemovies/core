@@ -12,11 +12,12 @@ export interface ISearchParameters extends IBaseParameters {
 }
 
 export interface IReleaseCheckParameters extends IBaseParameters {
-  _id: string;
+  id: string;
   language: Language;
 }
 
 export interface ISearchResult extends IBaseParameters {
+  id: string;
   posterUrl: string;
 }
 

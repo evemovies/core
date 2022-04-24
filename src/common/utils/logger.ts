@@ -11,8 +11,7 @@ interface IRequestWithUser extends Request {
   user: IUser;
 }
 
-// TODO: replace any type
-export function getUserForLog(req: any) {
+export function getUserForLog(req: IRequestWithUser) {
   return req.user.id;
 }
 

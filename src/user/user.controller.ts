@@ -15,7 +15,6 @@ export class UserController {
   @Get(':id')
   @UseGuards(UserGuard)
   getUser(@Request() req, @Param() params): Promise<IUser> {
-    // TODO: add check that requested user's id is equal to req.user.id
     const userId = params.id;
     this.logger.log(`${getUserForLog(req)} is getting user with id ${userId}`);
 
@@ -35,7 +34,6 @@ export class UserController {
   @Post(':id/add-movie')
   @UseGuards(UserGuard)
   async addMovie(@Request() req, @Body() movie: MovieDto) {
-    // TODO: add check that movie is not yet added (for Telegram bot)
     const userId = req.user.id;
 
     this.logger.log(`${getUserForLog(req)} is trying to add movie ${JSON.stringify(movie)}`);
@@ -46,6 +44,18 @@ export class UserController {
       throw new HttpException(
         {
           error: 'This movie has been released already',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const user = await this.userService.getUserById(userId);
+    const userAlreadyHasThisMovie = user.observableMovies.some((userMovie) => userMovie.id === movie.id);
+
+    if (userAlreadyHasThisMovie) {
+      throw new HttpException(
+        {
+          error: 'This movie is in your library already',
         },
         HttpStatus.BAD_REQUEST,
       );

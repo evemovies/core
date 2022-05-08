@@ -1,4 +1,4 @@
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -9,6 +9,7 @@ import { AdminModule } from './admin/admin.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { JobsModule } from './common/jobs/jobs.module';
 import { TelegramModule } from './common/modules/telegram/telegram.module';
+import { LastActivityInterceptor } from './common/interceptors/last-activity.interceptor';
 
 @Module({
   imports: [
@@ -28,6 +29,10 @@ import { TelegramModule } from './common/modules/telegram/telegram.module';
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LastActivityInterceptor,
     },
   ],
 })

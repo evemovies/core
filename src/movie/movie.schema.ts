@@ -26,6 +26,9 @@ export class Movie {
 
   @Prop()
   released: boolean;
+
+  @Prop()
+  created: number;
 }
 
 export const MovieSchema = SchemaFactory.createForClass(Movie);

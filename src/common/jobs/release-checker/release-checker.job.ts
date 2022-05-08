@@ -30,9 +30,30 @@ export class ReleaseCheckerJob {
       const movieReleased = await this.movieService.checkMovieRelease(movie);
 
       if (movieReleased) {
+        const reason = `Movie ${movie.title} has been released`;
         await this.movieService.markMovieAsReleased(movie.id);
-        await this.userService.handleReleasedMovie(movie);
+        await this.userService.removeMovieForUsers(movie, reason);
       }
+    }
+  }
+
+  @Cron(CronExpression.EVERY_DAY_AT_11PM)
+  async checkOutdatedMovies() {
+    // Found all the movies that were added long ago and delete them
+    // This way release checker queue becomes cleaner
+    const unixDifference = 31536000; // 1 year
+    const now = new Date().getTime();
+
+    const outdatedMovies = await this.movieService.getMoviesFromDb({
+      created: {
+        $lt: now - unixDifference,
+      },
+    });
+
+    for (const movie of outdatedMovies) {
+      const reason = `Movie ${movie.title} has been added more than a year ago and will be removed from your collection.\nIf you believe it's a mistake and it'll be released, please add it again`;
+      await this.movieService.deleteMovie(movie.id);
+      await this.userService.removeMovieForUsers(movie, reason);
     }
   }
 }

@@ -5,4 +5,5 @@ export interface IMovie {
   posterUrl: string;
   language: 'en' | 'ru';
   released: boolean;
+  created: number;
 }

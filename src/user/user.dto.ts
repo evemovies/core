@@ -9,4 +9,6 @@ export class MovieDto {
   // TODO: temporarily optional
   @IsOptional()
   language: 'en' | 'ru';
+  @IsOptional()
+  created: number;
 }

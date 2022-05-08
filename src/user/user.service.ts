@@ -58,7 +58,7 @@ export class UserService {
     );
   }
 
-  async handleReleasedMovie(movie: IMovie) {
+  async removeMovieForUsers(movie: IMovie, reason: string) {
     const usersWithThisMovie = await this.userModel.find({ observableMovies: movie.id });
 
     for (const user of usersWithThisMovie) {
@@ -75,7 +75,7 @@ export class UserService {
         },
       );
 
-      await this.telegramService.sendMessage(user.id, `Movie ${movie.title} has been released`);
+      await this.telegramService.sendMessage(user.id, reason);
     }
   }
 }

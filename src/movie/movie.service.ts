@@ -76,11 +76,16 @@ export class MovieService {
         posterUrl: movie.posterUrl,
         language: movie.language,
         released: false,
+        created: new Date().getTime(),
       },
       {
         new: true,
         upsert: true,
       },
     );
+  }
+
+  async deleteMovie(movieId: string) {
+    await this.movieModel.deleteOne({ _id: movieId });
   }
 }

@@ -20,7 +20,7 @@ export class ReleaseCheckerJob {
     return new Promise((resolve) => setTimeout(resolve, sec));
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  // @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async checkMovieReleases() {
     const unreleasedMovies = await this.movieService.getMoviesFromDb({ released: false });
 
@@ -37,7 +37,7 @@ export class ReleaseCheckerJob {
     }
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_11PM)
+  // @Cron(CronExpression.EVERY_DAY_AT_11PM)
   async checkOutdatedMovies() {
     // Found all the movies that were added long ago and delete them
     // This way release checker queue becomes cleaner

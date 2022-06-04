@@ -1,12 +1,16 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Inject, forwardRef } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from 'src/user/user.service';
 import { TelegramService } from 'src/common/modules/telegram/telegram.service';
+import { UserService } from 'src/user/user.service';
 import { IUser } from 'src/user/user.interface';
 
 @Injectable()
 export class AuthService {
-  constructor(private userService: UserService, private jwtService: JwtService, private telegram: TelegramService) {}
+  constructor(
+    @Inject(forwardRef(() => UserService)) private userService: UserService,
+    private jwtService: JwtService,
+    private telegram: TelegramService,
+  ) {}
 
   async validateUser(id: string, OTPCode: string) {
     const user = await this.userService.getUserById(id);
@@ -18,10 +22,13 @@ export class AuthService {
 
   async login(user: IUser) {
     const payload = { sub: user.id };
+    const token = await this.jwtService.signAsync(payload);
+
+    await this.userService.updateUser({ _id: user.id }, { token });
 
     return {
       user_id: user.id,
-      access_token: this.jwtService.sign(payload),
+      access_token: token,
     };
   }
 
@@ -45,5 +52,20 @@ export class AuthService {
 
     await this.userService.updateUser({ _id: id }, { OTPCode: code });
     await this.telegram.sendMessage(id, code);
+  }
+
+  async getUserToken(userId: string) {
+    const user = await this.userService.getUserById(userId);
+
+    const newToken = await this.jwtService
+      .verifyAsync(user.token)
+      .then(() => user.token)
+      .catch(() => this.jwtService.signAsync({ sub: userId }));
+
+    if (user.token !== newToken) {
+      await this.userService.updateUser({ _id: user.id }, { token: newToken });
+    }
+
+    return newToken;
   }
 }

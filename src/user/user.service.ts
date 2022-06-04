@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model, UpdateQuery, UpdateWithAggregationPipeline } from 'mongoose';
+import { AuthService } from 'src/auth/auth.service';
 import { TelegramService } from 'src/common/modules/telegram/telegram.service';
 import { IMovie } from 'src/movie/movie.interface';
 import { IUser } from './user.interface';
@@ -10,11 +11,19 @@ import { User, UserDocument } from './user.schema';
 export class UserService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @Inject(forwardRef(() => AuthService))
+    private authService: AuthService,
     private telegramService: TelegramService,
   ) {}
 
   async getUserById(id: string): Promise<IUser | undefined> {
     return this.userModel.findOne({ _id: id });
+  }
+
+  async getUserToken(userId: string): Promise<unknown> {
+    const token = await this.authService.getUserToken(userId);
+
+    return { token };
   }
 
   async updateUser(

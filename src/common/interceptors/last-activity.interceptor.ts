@@ -8,11 +8,14 @@ export class LastActivityInterceptor implements NestInterceptor {
 
   intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<Observable<any>> {
     const req = context.switchToHttp().getRequest();
-    return next.handle().pipe(tap(this.updateLastActivity.bind(this, req.user.id)));
+    return next.handle().pipe(tap(this.updateLastActivity.bind(this, req.user?.id)));
   }
 
   async updateLastActivity(userId: string) {
     const now = new Date().getTime();
-    await this.userService.updateUser({ _id: userId }, { lastActivity: now });
+
+    if (userId) {
+      await this.userService.updateUser({ _id: userId }, { lastActivity: now });
+    }
   }
 }

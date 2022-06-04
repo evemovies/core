@@ -35,6 +35,9 @@ export class User {
 
   @Prop()
   OTPCode: string;
+
+  @Prop()
+  token: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
@@ -56,6 +59,7 @@ UserSchema.methods.toJSON = function () {
 
   delete user._id;
   delete user.__v;
+  delete user.token;
 
   if (Array.isArray(user.observableMovies)) {
     user.observableMovies.forEach((movie) => {

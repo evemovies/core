@@ -10,4 +10,5 @@ export interface IUser {
   language: 'en' | 'ru';
   totalMovies: number;
   OTPCode: string;
+  token: string;
 }

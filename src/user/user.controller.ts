@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Request, Param, UseGuards, Body, HttpStatus, HttpException } from '@nestjs/common';
 import { MovieService } from 'src/movie/movie.service';
 import { Logger, getUserForLog } from 'src/common/utils/logger';
+import { Public } from 'src/common/decorators/public.decorator';
 import { MovieDto } from './user.dto';
-import { IUser } from './user.interface';
 import { UserService } from './user.service';
 import { UserGuard } from './user.guard';
 
@@ -14,11 +14,17 @@ export class UserController {
 
   @Get(':id')
   @UseGuards(UserGuard)
-  getUser(@Request() req, @Param() params): Promise<IUser> {
+  getUser(@Request() req, @Param() params) {
     const userId = params.id;
     this.logger.log(`${getUserForLog(req)} is getting user with id ${userId}`);
 
     return this.userService.getUserById(userId);
+  }
+
+  @Get(':id/token')
+  @Public()
+  getUserToken(@Param() params) {
+    return this.userService.getUserToken(params.id);
   }
 
   @Get(':id/movies')

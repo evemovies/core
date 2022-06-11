@@ -14,7 +14,6 @@ import { LastActivityInterceptor } from './common/interceptors/last-activity.int
 @Module({
   imports: [
     MongooseModule.forRoot(process.env.MONGODB_URI, {
-      useFindAndModify: false,
       useNewUrlParser: true,
     }),
     UserModule,
